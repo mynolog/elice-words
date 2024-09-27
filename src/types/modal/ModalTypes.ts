@@ -1,1 +1,1 @@
-export type ModalFlagType = 'create' | 'edit' | 'delete'
+export type ModalFlagType = 'CREATE' | 'EDIT' | 'DELETE'

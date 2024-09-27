@@ -5,20 +5,28 @@ import AppHeader from './components/partial/AppHeader.tsx'
 import CommonInput from './components/common/input/CommonInput.tsx'
 import WordList from './components/words/WordList.tsx'
 import Modal from './components/modal/Modal.tsx'
-import ModalBody from './components/modal/body/ModalBody.tsx'
 import { ModalFlagType } from './types/modal/ModalTypes.ts'
+import CreateWordModal from './components/modal/body/CreateWordModal.tsx'
 // import HorizontalRule from './components/common/hr/HorizontalRule.tsx'
 
 function App() {
   // const [input, setInput] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
-  const [words, setWords] = useState<Word[]>([
+  const [words, _] = useState<Word[]>([
     { id: 1, value: 'aaa' },
     { id: 2, value: 'bbb' },
     { id: 3, value: 'ccc' },
   ])
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+  const handleOpenModal = (flag: ModalFlagType) => {
+    setModalFlag(flag)
+    setIsModalOpen(true)
+  }
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+  }
 
   const handleInputChange = (value: string) => {
     const trimmedValue = value.trimEnd()
@@ -35,7 +43,7 @@ function App() {
 
   return (
     <AppContainer>
-      <AppHeader />
+      <AppHeader handleOpenModal={handleOpenModal} />
       <CommonInput
         value={searchTerm}
         onChange={handleInputChange}
@@ -46,8 +54,10 @@ function App() {
         words={words}
         filteredWords={filteredWords}
       />
-      <Modal>
-        <ModalBody />
+      <Modal isModalOpen={isModalOpen} handleCloseModal={handleCloseModal}>
+        {modalFlag === 'CREATE' && (
+          <CreateWordModal handleCloseModal={handleCloseModal} />
+        )}
       </Modal>
     </AppContainer>
   )

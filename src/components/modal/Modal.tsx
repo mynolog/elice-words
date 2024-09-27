@@ -4,11 +4,21 @@ import ModalContainer from './container/ModalContainer.tsx'
 
 type ModalProps = {
   children: ReactNode
+  isModalOpen: boolean
+  handleCloseModal: () => void
 }
 
-const Modal = ({ children }: ModalProps) => {
+const Modal = ({ children, isModalOpen, handleCloseModal }: ModalProps) => {
   const modalRoot = document.getElementById('modal-root')!
-  return createPortal(<ModalContainer>{children}</ModalContainer>, modalRoot)
+  return createPortal(
+    <ModalContainer
+      isModalOpen={isModalOpen}
+      handleCloseModal={handleCloseModal}
+    >
+      {children}
+    </ModalContainer>,
+    modalRoot,
+  )
 }
 
 export default Modal

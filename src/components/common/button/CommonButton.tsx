@@ -7,6 +7,7 @@ type CommonButtonProps = {
   bgColor?: string
   hoverColor?: string
   value?: string
+  onClick?: () => void
 }
 
 const CommonButton = ({
@@ -16,13 +17,16 @@ const CommonButton = ({
   bgColor = 'bg-[#2D4B73]',
   hoverColor = 'bg-[#253C59]',
   value = '',
+  onClick = () => {},
 }: CommonButtonProps) => {
+  console.log(value)
   return (
     <button
       className={`${width} ${margin} ${bgColor} text-white font-semibold text-sm rounded px-5 py-3 transition duration-200 ease-in-out
   hover:${hoverColor}
   active:scale-95 disabled:bg-gray-400`}
-      disabled={!value || value === ''}
+      onClick={onClick}
+      // disabled={!value}
     >
       {children}
     </button>

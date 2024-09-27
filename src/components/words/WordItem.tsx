@@ -4,10 +4,10 @@ type WordItemProps = {
   bgColor?: string
 }
 
-const WordItem = ({ word, bgColor = '99B4BF' }: WordItemProps) => {
+const WordItem = ({ word, bgColor = 'bg-[#99B4BF]' }: WordItemProps) => {
   return (
     <li
-      className={`p-2 bg-[#${bgColor}] text-white rounded-md hover:bg-[#7A9A8E] transition duration-200 ease-in-out`}
+      className={`${bgColor} p-2 text-white rounded-md hover:bg-[#7A9A8E] transition duration-200 ease-in-out`}
       key={word.id + word.value}
     >
       {word.value}

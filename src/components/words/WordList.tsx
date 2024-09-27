@@ -13,11 +13,15 @@ const WordList = ({ searchTerm, words, filteredWords = [] }: WordListProps) => {
       {searchTerm !== '' ? (
         <>
           {filteredWords.map((word) => (
-            <WordItem word={word} />
+            <WordItem key={word.id + word.value} word={word} />
           ))}
         </>
       ) : (
-        <>{words?.map((word: Word) => <WordItem word={word} />)}</>
+        <>
+          {words?.map((word: Word) => (
+            <WordItem key={word.id + word.value} word={word} />
+          ))}
+        </>
       )}
     </ul>
   )
