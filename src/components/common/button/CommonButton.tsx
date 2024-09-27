@@ -7,8 +7,8 @@ type CommonButtonProps = {
 const CommonButton = ({ children }: CommonButtonProps) => {
   return (
     <button
-      className="bg-[#99B4BF] text-white font-semibold text-sm rounded p-2 transition duration-200 ease-in-out
-  hover:bg-[#7A9DA0]
+      className="bg-[#2D4B73] text-white font-semibold text-sm rounded p-2 transition duration-200 ease-in-out
+  hover:bg-[#253C59]
   active:scale-95"
     >
       {children}
