@@ -6,7 +6,8 @@ import CommonInput from './components/common/input/CommonInput.tsx'
 // import HorizontalRule from './components/common/hr/HorizontalRule.tsx'
 
 function App() {
-  const [input, setInput] = useState('')
+  // const [input, setInput] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [words, setWords] = useState<Word[]>([
     { id: 1, value: 'aaa' },
     { id: 2, value: 'bbb' },
@@ -16,23 +17,35 @@ function App() {
   const handleInputChange = (value: string) => {
     const trimmedValue = value.trimEnd()
     if (trimmedValue !== '') {
-      setInput(trimmedValue)
+      setSearchTerm(trimmedValue)
     } else {
-      setInput('')
+      setSearchTerm('')
     }
   }
+
+  const filteredWords = words.filter((word: Word) => {
+    return word.value.includes(searchTerm)
+  })
 
   return (
     <AppContainer>
       <AppHeader />
-      {/*<HorizontalRule />*/}
       <CommonInput
-        value={input}
+        value={searchTerm}
         onChange={handleInputChange}
         placeholder="단어를 입력하세요."
       />
-      {/*<HorizontalRule />*/}
-      <ul>{words?.map((word: Word) => <li key={word.id}>{word.value}</li>)}</ul>
+      <ul>
+        {searchTerm !== '' ? (
+          <>
+            {filteredWords.map((word) => (
+              <li key={word.id + word.value}>{word.value}</li>
+            ))}
+          </>
+        ) : (
+          <>{words?.map((word: Word) => <li key={word.id}>{word.value}</li>)}</>
+        )}
+      </ul>
     </AppContainer>
   )
 }
