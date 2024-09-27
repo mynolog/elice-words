@@ -25,7 +25,7 @@ const CreateWordModal = ({
   }
 
   return (
-    <div className="bg-white rounded-md shadow-md p-3 max-w-[600px] w-full h-48 flex flex-col justify-center">
+    <div className="p-3 flex flex-col justify-center">
       <CommonButton
         margin="ml-auto"
         bgColor="bg-gray-300"

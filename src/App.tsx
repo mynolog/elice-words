@@ -25,6 +25,7 @@ function App() {
     setIsModalOpen(true)
   }
   const handleCloseModal = () => {
+    setModalFlag(null)
     setIsModalOpen(false)
   }
 
