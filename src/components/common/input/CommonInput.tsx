@@ -16,7 +16,7 @@ const CommonInput = ({
   }
   return (
     <input
-      className="w-full border-b-2 border-gray-500 px-4 py-2 rounded-t-none outline-none text-xl font-semibold"
+      className="w-full border-b-2 border-gray-500 my-2 px-4 py-2 rounded-t-none outline-none text-xl font-semibold"
       placeholder={placeholder}
       value={value}
       onChange={handleChange}

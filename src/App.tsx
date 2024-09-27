@@ -4,6 +4,9 @@ import AppContainer from './components/partial/AppContainer.tsx'
 import AppHeader from './components/partial/AppHeader.tsx'
 import CommonInput from './components/common/input/CommonInput.tsx'
 import WordList from './components/words/WordList.tsx'
+import Modal from './components/modal/Modal.tsx'
+import ModalBody from './components/modal/body/ModalBody.tsx'
+import { ModalFlagType } from './types/modal/ModalTypes.ts'
 // import HorizontalRule from './components/common/hr/HorizontalRule.tsx'
 
 function App() {
@@ -14,6 +17,8 @@ function App() {
     { id: 2, value: 'bbb' },
     { id: 3, value: 'ccc' },
   ])
+  const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleInputChange = (value: string) => {
     const trimmedValue = value.trimEnd()
@@ -41,6 +46,9 @@ function App() {
         words={words}
         filteredWords={filteredWords}
       />
+      <Modal>
+        <ModalBody />
+      </Modal>
     </AppContainer>
   )
 }
