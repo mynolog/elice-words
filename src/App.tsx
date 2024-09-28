@@ -9,11 +9,14 @@ import Modal from './components/modal/Modal.tsx'
 import CreateWordModal from './components/modal/body/CreateWordModal.tsx'
 import EditWordModal from './components/modal/body/EditWordModal.tsx'
 import Toast from './components/toast/Toast.tsx'
+import DeleteWordModal from './components/modal/body/DeleteWordModal.tsx'
 
 function App() {
   const [input, setInput] = useState('')
+  const [newInput, setNewInput] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [words, setWords] = useState<Word[]>([])
+  const [currentWordId, setCurrentWordId] = useState<number | null>(null)
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
@@ -31,13 +34,15 @@ function App() {
   }
 
   // Modal 핸들러
-  const handleOpenModal = (flag: ModalFlagType) => {
+  const handleOpenModal = (flag: ModalFlagType, id: number | null = null) => {
     setModalFlag(flag)
+    setCurrentWordId(id)
     setIsModalOpen(true)
   }
   const handleCloseModal = () => {
     setModalFlag(null)
     setIsModalOpen(false)
+    setSearchTerm('')
     setInput('')
   }
 
@@ -53,8 +58,7 @@ function App() {
         setInput(trimmedValue || '')
         break
       case 'EDIT':
-        break
-      case 'DELETE':
+        setNewInput(trimmedValue || '')
         break
       default:
         return
@@ -71,6 +75,18 @@ function App() {
     setIsModalOpen(false)
   }
 
+  const handleEditWord = (id: number, value: string) => {
+    setWords((prevWords) =>
+      prevWords.map((word) => (word.id === id ? { ...word, value } : word)),
+    )
+    setIsModalOpen(false)
+  }
+
+  const handleDeleteWord = (id: number) => {
+    setWords((prevWords) => prevWords.filter((word) => word.id !== id))
+    setIsModalOpen(false)
+  }
+
   return (
     <AppContainer>
       <AppHeader handleOpenModal={handleOpenModal} />
@@ -84,6 +100,7 @@ function App() {
         searchTerm={searchTerm}
         words={words}
         filteredWords={filteredWords}
+        handleOpenModal={handleOpenModal}
       />
 
       {toastMessage && <Toast message={toastMessage} />}
@@ -100,9 +117,26 @@ function App() {
           />
         )}
         {modalFlag === 'EDIT' && (
-          <EditWordModal handleCloseModal={handleCloseModal} />
+          <EditWordModal
+            newInput={newInput}
+            setNewInput={setNewInput}
+            handleInputChange={handleInputChange}
+            handleCloseModal={handleCloseModal}
+            modalFlag={modalFlag}
+            currentWord={words.find((word) => word.id === currentWordId)}
+            handleEditWord={handleEditWord}
+            handleOpenToast={handleOpenToast}
+          />
         )}
-        {modalFlag === 'DELETE' && <h1>Delete Modal</h1>}
+        {modalFlag === 'DELETE' && (
+          <DeleteWordModal
+            handleCloseModal={handleCloseModal}
+            modalFlag={modalFlag}
+            currentWord={words.find((word) => word.id === currentWordId)}
+            handleDeleteWord={handleDeleteWord}
+            handleOpenToast={handleOpenToast}
+          />
+        )}
       </Modal>
     </AppContainer>
   )

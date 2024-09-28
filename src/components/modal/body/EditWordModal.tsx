@@ -1,25 +1,51 @@
-import { useState } from 'react'
 import CommonButton from '../../common/button/CommonButton.tsx'
 import CommonInput from '../../common/input/CommonInput.tsx'
+import { ModalFlagType } from '../../../types/modal/ModalTypes.ts'
+import { Word } from '../../../types/word/WordTypes.ts'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 
 type EditWordModalProps = {
-  handleCloseModal?: () => void
+  handleCloseModal: () => void
+  handleInputChange: (value: string, flag: ModalFlagType) => void
+  modalFlag: ModalFlagType
+  handleOpenToast: (message: string) => void
+  currentWord: Word | undefined
+  handleEditWord: (id: number, value: string) => void
+  newInput: string
+  setNewInput: Dispatch<SetStateAction<string>>
 }
 
-const EditWordModal = ({ handleCloseModal = () => {} }: EditWordModalProps) => {
-  const [value, setValue] = useState('')
-  const handleInputChange = (value: string) => {
-    const trimmedValue = value.trimEnd()
-    if (trimmedValue !== '') {
-      setValue(trimmedValue)
-    } else {
-      setValue('')
-    }
-  }
+const EditWordModal = ({
+  handleCloseModal,
+  handleInputChange,
+  modalFlag,
+  handleOpenToast,
+  currentWord,
+  handleEditWord,
+  newInput,
+  setNewInput,
+}: EditWordModalProps) => {
+  useEffect(() => {
+    setNewInput(currentWord?.value || '')
+  }, [currentWord, setNewInput])
 
   const handeModalClose = () => {
     handleCloseModal()
-    setValue('')
+  }
+
+  const onClick = () => {
+    if (newInput.trim() && currentWord) {
+      handleEditWord(currentWord.id, newInput)
+      handleOpenToast('✅ 성공적으로 수정되었습니다! 😀')
+      handleCloseModal()
+    } else {
+      handleOpenToast('❌ 단어를 입력해주세요! 😅')
+    }
+  }
+
+  const handleChange = (value: string) => {
+    setNewInput(value)
+    handleInputChange(value, modalFlag)
   }
 
   return (
@@ -34,11 +60,13 @@ const EditWordModal = ({ handleCloseModal = () => {} }: EditWordModalProps) => {
       </CommonButton>
       <div>
         <CommonInput
-          value={value}
-          onChange={handleInputChange}
+          value={newInput}
+          onChange={handleChange}
           placeholder="단어를 입력하세요."
         />
-        <CommonButton width="w-full">수정</CommonButton>
+        <CommonButton width="w-full" onClick={onClick}>
+          수정
+        </CommonButton>
       </div>
     </div>
   )
