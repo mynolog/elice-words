@@ -1,6 +1,6 @@
 import type { Word } from './types/word/WordTypes.ts'
 import type { ModalFlagType } from './types/modal/ModalTypes.ts'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AppContainer from './components/partial/AppContainer.tsx'
 import AppHeader from './components/partial/AppHeader.tsx'
 import CommonInput from './components/common/input/CommonInput.tsx'
@@ -20,6 +20,15 @@ function App() {
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+
+  useEffect(() => {
+    const localWords = localStorage.getItem('words')
+    if (localWords) {
+      setWords(JSON.parse(localWords))
+    } else {
+      setWords([])
+    }
+  }, [])
 
   const filteredWords = words.filter((word: Word) => {
     return word.value.includes(searchTerm)
@@ -71,19 +80,31 @@ function App() {
       return
     }
     const newWord = { id: Date.now(), value }
-    setWords((prevState) => [...prevState, newWord])
+    setWords((prevState) => {
+      const updatedWords = [...prevState, newWord]
+      localStorage.setItem('words', JSON.stringify(updatedWords))
+      return updatedWords
+    })
     setIsModalOpen(false)
   }
 
   const handleEditWord = (id: number, value: string) => {
-    setWords((prevWords) =>
-      prevWords.map((word) => (word.id === id ? { ...word, value } : word)),
-    )
+    setWords((prevWords) => {
+      const updatedWords = prevWords.map((word) =>
+        word.id === id ? { ...word, value } : word,
+      )
+      localStorage.setItem('words', JSON.stringify(updatedWords))
+      return updatedWords
+    })
     setIsModalOpen(false)
   }
 
   const handleDeleteWord = (id: number) => {
-    setWords((prevWords) => prevWords.filter((word) => word.id !== id))
+    setWords((prevWords) => {
+      const updatedWords = prevWords.filter((word) => word.id !== id)
+      localStorage.setItem('words', JSON.stringify(updatedWords))
+      return updatedWords
+    })
     setIsModalOpen(false)
   }
 
@@ -131,7 +152,6 @@ function App() {
         {modalFlag === 'DELETE' && (
           <DeleteWordModal
             handleCloseModal={handleCloseModal}
-            modalFlag={modalFlag}
             currentWord={words.find((word) => word.id === currentWordId)}
             handleDeleteWord={handleDeleteWord}
             handleOpenToast={handleOpenToast}

@@ -21,7 +21,7 @@ const CommonButton = ({
     <button
       className={`${width} ${margin} ${bgColor} text-white font-semibold text-sm rounded px-5 py-3 transition duration-200 ease-in-out
   hover:${hoverColor}
-  active:scale-95 disabled:bg-gray-400`}
+  active:scale-95`}
       onClick={onClick}
     >
       {children}

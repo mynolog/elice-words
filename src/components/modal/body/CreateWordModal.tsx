@@ -23,7 +23,7 @@ const CreateWordModal = ({
     handleCloseModal()
   }
 
-  const onClick = () => {
+  const onCreateWord = () => {
     if (input.trim()) {
       handleCreateWord(input)
       handleOpenToast('✅ 성공적으로 추가되었습니다! 😀')
@@ -37,7 +37,7 @@ const CreateWordModal = ({
     <div className="p-3 flex flex-col justify-center">
       <CommonButton
         margin="ml-auto"
-        bgColor="bg-gray-300"
+        bgColor="bg-gray-400"
         hoverColor="bg-gray-900"
         onClick={handeModalClose}
       >
@@ -49,7 +49,7 @@ const CreateWordModal = ({
           onChange={(input) => handleInputChange(input, modalFlag)}
           placeholder="단어를 입력하세요."
         />
-        <CommonButton width="w-full" onClick={onClick}>
+        <CommonButton width="w-full" onClick={onCreateWord}>
           등록
         </CommonButton>
       </div>

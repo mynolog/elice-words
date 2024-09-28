@@ -33,7 +33,7 @@ const EditWordModal = ({
     handleCloseModal()
   }
 
-  const onClick = () => {
+  const onEditWord = () => {
     if (newInput.trim() && currentWord) {
       handleEditWord(currentWord.id, newInput)
       handleOpenToast('✅ 성공적으로 수정되었습니다! 😀')
@@ -43,7 +43,7 @@ const EditWordModal = ({
     }
   }
 
-  const handleChange = (value: string) => {
+  const onChangeWord = (value: string) => {
     setNewInput(value)
     handleInputChange(value, modalFlag)
   }
@@ -61,10 +61,10 @@ const EditWordModal = ({
       <div>
         <CommonInput
           value={newInput}
-          onChange={handleChange}
+          onChange={onChangeWord}
           placeholder="단어를 입력하세요."
         />
-        <CommonButton width="w-full" onClick={onClick}>
+        <CommonButton width="w-full" onClick={onEditWord}>
           수정
         </CommonButton>
       </div>
