@@ -16,7 +16,7 @@ const ModalContainer = ({
     handleCloseModal()
   }
   const handleContentClick = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation() // Prevent the modal close when clicking inside the modal content
+    e.stopPropagation()
   }
 
   return (

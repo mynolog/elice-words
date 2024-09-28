@@ -13,11 +13,7 @@ import Toast from './components/toast/Toast.tsx'
 function App() {
   const [input, setInput] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
-  const [words, setWords] = useState<Word[]>([
-    { id: 1, value: 'apple' },
-    { id: 2, value: 'banana' },
-    { id: 3, value: 'circle' },
-  ])
+  const [words, setWords] = useState<Word[]>([])
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -83,7 +79,7 @@ function App() {
         value={searchTerm}
         onChange={handleInputChange}
         modalFlag={modalFlag}
-        placeholder="단어를 입력하세요."
+        placeholder="찾고 싶은 키워드를 입력하세요."
       />
       <WordList
         searchTerm={searchTerm}
