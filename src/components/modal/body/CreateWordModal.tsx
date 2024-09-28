@@ -1,4 +1,3 @@
-// import { Dispatch, SetStateAction } from 'react'
 import CommonButton from '../../common/button/CommonButton.tsx'
 import CommonInput from '../../common/input/CommonInput.tsx'
 import { ModalFlagType } from '../../../types/modal/ModalTypes.ts'
@@ -50,7 +49,7 @@ const CreateWordModal = ({
           onChange={(input) => handleInputChange(input, modalFlag)}
           placeholder="단어를 입력하세요."
         />
-        <CommonButton width="w-full" value={input} onClick={onClick}>
+        <CommonButton width="w-full" onClick={onClick}>
           등록
         </CommonButton>
       </div>

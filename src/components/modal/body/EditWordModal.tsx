@@ -38,9 +38,7 @@ const EditWordModal = ({ handleCloseModal = () => {} }: EditWordModalProps) => {
           onChange={handleInputChange}
           placeholder="단어를 입력하세요."
         />
-        <CommonButton width="w-full" value={value}>
-          수정
-        </CommonButton>
+        <CommonButton width="w-full">수정</CommonButton>
       </div>
     </div>
   )

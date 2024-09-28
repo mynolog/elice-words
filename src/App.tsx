@@ -16,7 +16,6 @@ function App() {
   const [words, setWords] = useState<Word[]>([])
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   const filteredWords = words.filter((word: Word) => {
@@ -65,7 +64,7 @@ function App() {
   const handleCreateWord = (value: string) => {
     // TODO: 빈 문자열일때 등록 x
     if (value === '') {
-      setErrorMessage('추가하려는 단어는 입력해주세요.')
+      return
     }
     const newWord = { id: Date.now(), value }
     setWords((prevState) => [...prevState, newWord])
