@@ -19,7 +19,6 @@ const CommonButton = ({
   value = '',
   onClick = () => {},
 }: CommonButtonProps) => {
-  console.log(value)
   return (
     <button
       className={`${width} ${margin} ${bgColor} text-white font-semibold text-sm rounded px-5 py-3 transition duration-200 ease-in-out

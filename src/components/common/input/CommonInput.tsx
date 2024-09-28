@@ -1,18 +1,21 @@
 import type { ChangeEvent } from 'react'
+import { ModalFlagType } from '../../../types/modal/ModalTypes.ts'
 
 type CommonInputProps = {
   placeholder?: string
   value: string
-  onChange: (value: string) => void
+  onChange: (value: string, flag: ModalFlagType) => void
+  modalFlag?: ModalFlagType
 }
 
 const CommonInput = ({
   placeholder = '',
   value,
   onChange,
+  modalFlag = null,
 }: CommonInputProps) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value)
+    onChange(e.target.value, modalFlag)
   }
   return (
     <input
