@@ -128,9 +128,14 @@ function App() {
         handleOpenModal={handleOpenModal}
       />
 
-      <div className="fixed top-5 right-5 space-y-16">
-        {toasts.map(({ id, message, variant }) => (
-          <Toast key={id} message={message} variant={variant} />
+      <div className="fixed top-5 right-5">
+        {toasts.map(({ id, message, variant }, index) => (
+          <Toast
+            key={id}
+            message={message}
+            variant={variant}
+            style={{ marginTop: `${index * 60}px` }}
+          />
         ))}
       </div>
 
