@@ -1,18 +1,19 @@
 import type { Word } from '../../../types/word/WordTypes.ts'
 import CommonButton from '../../common/button/CommonButton.tsx'
+import { Variant } from '../../toast/Toast.tsx'
 
 type DeleteWordModalProps = {
   handleCloseModal: () => void
   currentWord: Word | undefined
   handleDeleteWord: (id: number) => void
-  handleOpenToast: (message: string) => void
+  handleShowToast: (message: string, variant: Variant) => void
 }
 
 const DeleteWordModal = ({
   handleCloseModal,
   currentWord,
   handleDeleteWord,
-  handleOpenToast,
+  handleShowToast,
 }: DeleteWordModalProps) => {
   const handeModalClose = () => {
     handleCloseModal()
@@ -21,7 +22,7 @@ const DeleteWordModal = ({
   const onDeleteWord = () => {
     if (currentWord) {
       handleDeleteWord(currentWord.id)
-      handleOpenToast('✅ 성공적으로 삭제되었습니다! 😀')
+      handleShowToast('✅ 성공적으로 삭제되었습니다! 😀', 'delete')
       handleCloseModal()
     }
   }

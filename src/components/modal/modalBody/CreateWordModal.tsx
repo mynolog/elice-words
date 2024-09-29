@@ -1,6 +1,7 @@
 import CommonButton from '../../common/button/CommonButton.tsx'
 import CommonInput from '../../common/input/CommonInput.tsx'
 import { ModalFlagType } from '../../../types/modal/ModalTypes.ts'
+import { Variant } from '../../toast/Toast.tsx'
 
 type CreateWordModalProps = {
   handleCloseModal?: () => void
@@ -8,7 +9,7 @@ type CreateWordModalProps = {
   handleInputChange: (value: string, flag: ModalFlagType) => void
   modalFlag: ModalFlagType
   handleCreateWord: (value: string) => void
-  handleOpenToast: (message: string) => void
+  handleShowToast: (message: string, variant: Variant) => void
 }
 
 const CreateWordModal = ({
@@ -17,7 +18,7 @@ const CreateWordModal = ({
   handleInputChange,
   modalFlag,
   handleCreateWord,
-  handleOpenToast,
+  handleShowToast,
 }: CreateWordModalProps) => {
   const handeModalClose = () => {
     handleCloseModal()
@@ -26,10 +27,10 @@ const CreateWordModal = ({
   const onCreateWord = () => {
     if (input.trim()) {
       handleCreateWord(input)
-      handleOpenToast('✅ 성공적으로 추가되었습니다! 😀')
+      handleShowToast('✅ 성공적으로 추가되었습니다! 😀', 'success')
       handleCloseModal()
     } else {
-      handleOpenToast('❌ 단어를 입력해주세요! 😅')
+      handleShowToast('❌ 단어를 입력해주세요! 😅', 'warning')
     }
   }
 

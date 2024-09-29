@@ -3,12 +3,13 @@ import CommonInput from '../../common/input/CommonInput.tsx'
 import { ModalFlagType } from '../../../types/modal/ModalTypes.ts'
 import { Word } from '../../../types/word/WordTypes.ts'
 import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Variant } from '../../toast/Toast.tsx'
 
 type EditWordModalProps = {
   handleCloseModal: () => void
   handleInputChange: (value: string, flag: ModalFlagType) => void
   modalFlag: ModalFlagType
-  handleOpenToast: (message: string) => void
+  handleShowToast: (message: string, variant: Variant) => void
   currentWord: Word | undefined
   handleEditWord: (id: number, value: string) => void
   newInput: string
@@ -19,7 +20,7 @@ const EditWordModal = ({
   handleCloseModal,
   handleInputChange,
   modalFlag,
-  handleOpenToast,
+  handleShowToast,
   currentWord,
   handleEditWord,
   newInput,
@@ -36,10 +37,10 @@ const EditWordModal = ({
   const onEditWord = () => {
     if (newInput.trim() && currentWord) {
       handleEditWord(currentWord.id, newInput)
-      handleOpenToast('✅ 성공적으로 수정되었습니다! 😀')
+      handleShowToast('✅ 성공적으로 수정되었습니다! 😀', 'update')
       handleCloseModal()
     } else {
-      handleOpenToast('❌ 단어를 입력해주세요! 😅')
+      handleShowToast('❌ 단어를 입력해주세요! 😅', 'warning')
     }
   }
 

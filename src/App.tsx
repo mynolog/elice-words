@@ -8,8 +8,9 @@ import WordList from './components/words/WordList.tsx'
 import Modal from './components/modal/Modal.tsx'
 import CreateWordModal from './components/modal/modalBody/CreateWordModal.tsx'
 import EditWordModal from './components/modal/modalBody/EditWordModal.tsx'
-import Toast from './components/toast/Toast.tsx'
 import DeleteWordModal from './components/modal/modalBody/DeleteWordModal.tsx'
+import Toast, { Variant } from './components/toast/Toast.tsx'
+import useToast from './hooks/useToast.tsx'
 
 function App() {
   const [input, setInput] = useState('')
@@ -19,8 +20,8 @@ function App() {
   const [currentWordId, setCurrentWordId] = useState<number | null>(null)
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [toastMessage, setToastMessage] = useState<string | null>(null)
-
+  // const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const { toasts, addToast } = useToast()
   useEffect(() => {
     const localWords = localStorage.getItem('words')
     if (localWords) {
@@ -35,11 +36,14 @@ function App() {
   })
 
   // Toast 핸들러
-  const handleOpenToast = (message: string) => {
-    setToastMessage(message)
-    setTimeout(() => {
-      setToastMessage(null)
-    }, 4000)
+  // const handleOpenToast = (message: string) => {
+  //   setToastMessage(message)
+  //   setTimeout(() => {
+  //     setToastMessage(null)
+  //   }, 4000)
+  // }
+  const handleShowToast = (message: string, variant: Variant) => {
+    addToast(message, variant)
   }
 
   // Modal 핸들러
@@ -124,7 +128,11 @@ function App() {
         handleOpenModal={handleOpenModal}
       />
 
-      {toastMessage && <Toast message={toastMessage} />}
+      <div className="fixed top-5 right-5 space-y-16">
+        {toasts.map(({ id, message, variant }) => (
+          <Toast key={id} message={message} variant={variant} />
+        ))}
+      </div>
 
       <Modal isModalOpen={isModalOpen} handleCloseModal={handleCloseModal}>
         {modalFlag === 'CREATE' && (
@@ -134,7 +142,7 @@ function App() {
             handleInputChange={handleInputChange}
             modalFlag={modalFlag}
             handleCreateWord={handleCreateWord}
-            handleOpenToast={handleOpenToast}
+            handleShowToast={handleShowToast}
           />
         )}
         {modalFlag === 'EDIT' && (
@@ -146,7 +154,7 @@ function App() {
             modalFlag={modalFlag}
             currentWord={words.find((word) => word.id === currentWordId)}
             handleEditWord={handleEditWord}
-            handleOpenToast={handleOpenToast}
+            handleShowToast={handleShowToast}
           />
         )}
         {modalFlag === 'DELETE' && (
@@ -154,7 +162,7 @@ function App() {
             handleCloseModal={handleCloseModal}
             currentWord={words.find((word) => word.id === currentWordId)}
             handleDeleteWord={handleDeleteWord}
-            handleOpenToast={handleOpenToast}
+            handleShowToast={handleShowToast}
           />
         )}
       </Modal>
