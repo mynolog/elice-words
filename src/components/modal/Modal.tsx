@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import ModalContainer from './container/ModalContainer.tsx'
+import ModalContainer from './modalContainer/ModalContainer.tsx'
 
 type ModalProps = {
   children: ReactNode

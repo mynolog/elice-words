@@ -6,10 +6,10 @@ import AppHeader from './components/partial/AppHeader.tsx'
 import CommonInput from './components/common/input/CommonInput.tsx'
 import WordList from './components/words/WordList.tsx'
 import Modal from './components/modal/Modal.tsx'
-import CreateWordModal from './components/modal/body/CreateWordModal.tsx'
-import EditWordModal from './components/modal/body/EditWordModal.tsx'
+import CreateWordModal from './components/modal/modalBody/CreateWordModal.tsx'
+import EditWordModal from './components/modal/modalBody/EditWordModal.tsx'
 import Toast from './components/toast/Toast.tsx'
-import DeleteWordModal from './components/modal/body/DeleteWordModal.tsx'
+import DeleteWordModal from './components/modal/modalBody/DeleteWordModal.tsx'
 
 function App() {
   const [input, setInput] = useState('')
