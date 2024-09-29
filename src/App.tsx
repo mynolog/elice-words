@@ -20,8 +20,9 @@ function App() {
   const [currentWordId, setCurrentWordId] = useState<number | null>(null)
   const [modalFlag, setModalFlag] = useState<ModalFlagType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  // const [toastMessage, setToastMessage] = useState<string | null>(null)
   const { toasts, addToast } = useToast()
+
+  // TODO #8: useLocalStorage Hook으로 만들기
   useEffect(() => {
     const localWords = localStorage.getItem('words')
     if (localWords) {
@@ -36,27 +37,8 @@ function App() {
   })
 
   // Toast 핸들러
-  // const handleOpenToast = (message: string) => {
-  //   setToastMessage(message)
-  //   setTimeout(() => {
-  //     setToastMessage(null)
-  //   }, 4000)
-  // }
   const handleShowToast = (message: string, variant: Variant) => {
     addToast(message, variant)
-  }
-
-  // Modal 핸들러
-  const handleOpenModal = (flag: ModalFlagType, id: number | null = null) => {
-    setModalFlag(flag)
-    setCurrentWordId(id)
-    setIsModalOpen(true)
-  }
-  const handleCloseModal = () => {
-    setModalFlag(null)
-    setIsModalOpen(false)
-    setSearchTerm('')
-    setInput('')
   }
 
   // Change 핸들러
@@ -78,8 +60,20 @@ function App() {
     }
   }
 
+  // Modal 핸들러
+  const handleOpenModal = (flag: ModalFlagType, id: number | null = null) => {
+    setModalFlag(flag)
+    setCurrentWordId(id)
+    setIsModalOpen(true)
+  }
+  const handleCloseModal = () => {
+    setModalFlag(null)
+    setIsModalOpen(false)
+    setSearchTerm('')
+    setInput('')
+  }
+
   const handleCreateWord = (value: string) => {
-    // TODO: 빈 문자열일때 등록 x
     if (value === '') {
       return
     }
