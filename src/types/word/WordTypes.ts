@@ -1,5 +1,5 @@
 export type Word = {
-  docId: string
+  docId?: string
   id: number
   value: string
 }

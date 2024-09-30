@@ -108,7 +108,7 @@ function App() {
     if (!targetWord) {
       return
     }
-    await fireStoreWordService.updateWordById(value, targetWord.docId)
+    await fireStoreWordService.updateWordById(value, targetWord.docId!)
     setIsModalOpen(false)
   }
 
@@ -117,7 +117,7 @@ function App() {
     if (!targetWord) {
       return
     }
-    await fireStoreWordService.deleteWordById(targetWord.docId)
+    await fireStoreWordService.deleteWordById(targetWord.docId!)
     setIsModalOpen(false)
   }
 
