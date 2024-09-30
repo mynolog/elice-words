@@ -11,6 +11,9 @@ import EditWordModal from './components/modal/modalBody/EditWordModal.tsx'
 import DeleteWordModal from './components/modal/modalBody/DeleteWordModal.tsx'
 import Toast, { Variant } from './components/toast/Toast.tsx'
 import useToast from './hooks/useToast.tsx'
+import { fireStoreWordService } from './service/fireStoreWordService.ts'
+import { onSnapshot, collection, query, orderBy } from 'firebase/firestore'
+import { db } from './config/firebaseConfig.ts'
 
 function App() {
   const [input, setInput] = useState('')
@@ -22,15 +25,33 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const { toasts, addToast } = useToast()
 
-  // TODO #8: useLocalStorage Hook으로 만들기
   useEffect(() => {
-    const localWords = localStorage.getItem('words')
-    if (localWords) {
-      setWords(JSON.parse(localWords))
-    } else {
-      setWords([])
+    // TODO: useFectch Hook으로 리펙토링
+    const fetchWords = async () => {
+      const q = query(collection(db, 'words'), orderBy('id', 'asc'))
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const newData = snapshot.docs.map((doc) => ({
+          ...(doc.data() as Word),
+          docId: doc.id,
+        }))
+        setWords(newData)
+      })
+      return () => unsubscribe()
     }
+    // onSnapshot으로 대체
+    //   try {
+    //     const data = await fireStoreWordService.getWordsCollection()
+    //     setWords(data ?? [])
+    //   } catch (e) {
+    //     console.error('fetchWords', e)
+    //   }
+    // }
+    fetchWords()
   }, [])
+
+  useEffect(() => {
+    console.log('words updated...')
+  }, [words])
 
   const filteredWords = words.filter((word: Word) => {
     return word.value.includes(searchTerm)
@@ -73,36 +94,30 @@ function App() {
     setInput('')
   }
 
-  const handleCreateWord = (value: string) => {
+  const handleCreateWord = async (value: string) => {
     if (value === '') {
       return
     }
     const newWord = { id: Date.now(), value }
-    setWords((prevState) => {
-      const updatedWords = [...prevState, newWord]
-      localStorage.setItem('words', JSON.stringify(updatedWords))
-      return updatedWords
-    })
+    await fireStoreWordService.createWord(newWord)
     setIsModalOpen(false)
   }
 
-  const handleEditWord = (id: number, value: string) => {
-    setWords((prevWords) => {
-      const updatedWords = prevWords.map((word) =>
-        word.id === id ? { ...word, value } : word,
-      )
-      localStorage.setItem('words', JSON.stringify(updatedWords))
-      return updatedWords
-    })
+  const handleEditWord = async (id: number, value: string) => {
+    const targetWord = words.find((word) => word.id === id)
+    if (!targetWord) {
+      return
+    }
+    await fireStoreWordService.updateWordById(value, targetWord.docId)
     setIsModalOpen(false)
   }
 
-  const handleDeleteWord = (id: number) => {
-    setWords((prevWords) => {
-      const updatedWords = prevWords.filter((word) => word.id !== id)
-      localStorage.setItem('words', JSON.stringify(updatedWords))
-      return updatedWords
-    })
+  const handleDeleteWord = async (id: number) => {
+    const targetWord = words.find((word) => word.id === id)
+    if (!targetWord) {
+      return
+    }
+    await fireStoreWordService.deleteWordById(targetWord.docId)
     setIsModalOpen(false)
   }
 

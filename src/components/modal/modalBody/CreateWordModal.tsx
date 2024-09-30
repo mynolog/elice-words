@@ -24,7 +24,7 @@ const CreateWordModal = ({
     handleCloseModal()
   }
 
-  const onCreateWord = () => {
+  const onCreateWord = async () => {
     if (input.trim()) {
       handleCreateWord(input)
       handleShowToast('✅ 성공적으로 추가되었습니다! 😀', 'success')
